@@ -48,6 +48,11 @@ gem "tailwindcss-rails", "~> 2.0"
 # For user authentication
 gem "devise", "~> 4.9"
 
+# For communicating with Movie database https://github.com/18Months/themoviedb-api/#movies
+gem 'themoviedb-api'
+
+# Manage application environment variables
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Use Sass to process CSS
 # gem "sassc-rails"
 
