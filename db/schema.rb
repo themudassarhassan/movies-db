@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_10_072107) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_10_093014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.bigint "user_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_comments_on_movie_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "release_date", null: false
+    t.text "overview", null: false
+    t.string "poster_path", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -23,4 +42,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_072107) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "watched_movies", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_watched_movies_on_movie_id"
+    t.index ["user_id"], name: "index_watched_movies_on_user_id"
+  end
+
+  add_foreign_key "comments", "movies", on_delete: :cascade
+  add_foreign_key "comments", "users", on_delete: :cascade
+  add_foreign_key "watched_movies", "movies", on_delete: :cascade
+  add_foreign_key "watched_movies", "users", on_delete: :cascade
 end
