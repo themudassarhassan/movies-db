@@ -45,6 +45,9 @@ gem "bootsnap", require: false
 # For Styling UI
 gem "tailwindcss-rails", "~> 2.0"
 
+# For user authentication
+gem "devise", "~> 4.9"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
