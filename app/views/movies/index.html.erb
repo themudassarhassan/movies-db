@@ -1,0 +1,27 @@
+
+<%= form_with method: :get, class: 'w-full max-w-sm mx-auto' do |form| %>
+  <div class="flex items-center border-b border-b-2 border-blue-500 py-2">
+    <%= form.text_field :query, placeholder: "Search movies", class: 'appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none' %>
+    <%= form.submit "Search", class: 'flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-blue-500 hover:border-blue-700 text-sm border-4 text-white py-1 px-2 rounded' %>
+  </div>
+<% end %>
+
+<section id="movie-list" class="mt-10">
+  <div class="grid grid-cols-3 gap-4 p-4">
+    <% @response.results.each do |movie| %>
+      <div class="flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="flex-shrink-0">
+            <%= image_tag "https://image.tmdb.org/t/p/w300#{movie.poster_path}", class: "h-48 w-full object-cover", alt: "Movie poster" %>
+          </div>
+          <div class="p-6">
+              <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><%= movie.title %></div>
+              <p class="mt-1 text-gray-500">Release Date: <%= movie.release_date %></p>
+              <p class="mt-1 text-gray-500">Rating: <%= movie.vote_average&.round(1)%></p>
+              <div class="mt-4">
+                <%= link_to "View Details", "/movies/#{movie.id}", class: 'mt-4 w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-500' %>
+              </div>
+          </div>
+      </div>
+    <% end %>
+  </div>
+</section>

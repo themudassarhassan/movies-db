@@ -12,7 +12,14 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <!-- Header Section -->
+    <header class="bg-blue-500 text-center py-4 text-white">
+      <%= link_to "Watched Movies", "/watched-movies", class: 'text-xl underline hover:text-gray-200' %>
+      <%= link_to "Movies", "/movies", class: 'text-xl underline hover:text-gray-200' %>
+    </header>
+
+    <!-- Body Section -->
+    <main class="container mx-auto py-10">
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
       <%= yield %>
