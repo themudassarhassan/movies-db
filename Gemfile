@@ -54,7 +54,7 @@ gem 'devise', '~> 4.9'
 gem 'themoviedb-api'
 
 # Manage application environment variables
-gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'dotenv-rails'
 # Use Sass to process CSS
 # gem "sassc-rails"
 
