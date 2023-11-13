@@ -2,25 +2,33 @@
 
 class MoviesController < ApplicationController
   before_action :authenticate_user!
-  # GET /movies
+  before_action :set_movie, only: %i[add_to_watchlist remove_from_watchlist]
+
   def index
-    @response = if params[:query].present?
-                  Tmdb::Search.movie(params[:query])
-                else
-                  Tmdb::Movie.top_rated
-                end
+    @response = MoviesService.new(params).index
   end
 
   def show
-    @movie = Movie.includes(:comments).where(id: params[:id]).first
-    return if @movie.present?
+    @movie = MoviesService.new(params).show
+  end
 
-    movie_from_api = Tmdb::Movie.detail(params[:id])
-    @movie = Movie.create(id: movie_from_api.id, title: movie_from_api.title,
-                          release_date: movie_from_api.release_date, overview: movie_from_api.overview, poster_path: movie_from_api.poster_path)
+  def add_to_watchlist
+    current_user.watchlist << @movie
+
+    redirect_to movie_path(@movie)
+  end
+
+  def remove_from_watchlist
+    current_user.watchlist.destroy(@movie)
+
+    redirect_to movie_path(@movie)
   end
 
   private
+
+  def set_movie
+    @movie = Movie.find(params[:movie_id])
+  end
 
   def movie_params
     params.permit(:query)

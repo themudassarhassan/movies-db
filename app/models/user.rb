@@ -3,6 +3,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
-  has_many :watched_movies, dependent: :destroy
+  has_and_belongs_to_many :watchlist, class_name: 'Movie', dependent: :destroy
   has_many :comments, dependent: :destroy
 end

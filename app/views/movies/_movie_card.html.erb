@@ -1,0 +1,13 @@
+<div class="flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="flex-shrink-0">
+    <%= image_tag "https://image.tmdb.org/t/p/w300#{movie.poster_path}", class: "h-48 w-full object-cover", alt: "Movie poster" %>
+  </div>
+  <div class="p-6">
+      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><%= movie.title %></div>
+      <p class="mt-1 text-gray-500">Release Date: <%= movie.release_date %></p>
+      <p class="mt-1 text-gray-500">Rating: <%= movie.vote_average&.round(1)%></p>
+      <div class="mt-4">
+        <%= link_to "View Details", movie_path(movie.id), class: 'mt-4 w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-500' %>
+      </div>
+  </div>
+</div>

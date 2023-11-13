@@ -1,0 +1,10 @@
+<div id="<%= dom_id(movie) %>" class="bg-white rounded-lg p-6 shadow mb-4 flex justify-between items-center">
+  <div class="w-48">
+      <%= image_tag "https://image.tmdb.org/t/p/w300#{movie.poster_path}", class: "h-24 w-full object-cover", alt: "Movie poster" %>
+  </div>
+  <div class="w-1/2">
+      <h2 class="text-xl font-semibold text-gray-900"><%= movie.title %></h2>
+      <p class="text-gray-700 mt-2">Overview <%= movie.overview %></p>
+  </div>
+  <%= link_to 'Remove', watchlist_path(movie), class: 'text-white bg-red-700 rounded p-2', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }  %>
+</div>

@@ -1,0 +1,8 @@
+<div >
+    <% if @movies_to_watch.present? %>
+        <h1>Here's your watchlist</h1>
+        <%= render partial: 'movie_card', collection: @movies_to_watch, as: :movie %>
+    <% else %>
+        <h1>Your watchlist is empty.</h2>
+    <% end %>
+</div>

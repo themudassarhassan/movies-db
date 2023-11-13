@@ -1,11 +1,16 @@
-<!-- Movie Details Section -->
 <div class="md:flex bg-white rounded-lg p-6">
     <%= image_tag "https://image.tmdb.org/t/p/w500#{@movie.poster_path}", class: "h-48 w-full md:w-48 object-cover md:mr-6", alt: "Movie poster" %>
     <div class="w-full">
         <h2 class="text-xl font-semibold text-gray-900"><%= @movie.title%></h2>
         <p class="text-gray-700 mt-2">Release date: <%= @movie.release_date%></p>
         <p class="text-gray-700 mt-2">Overview: <%= @movie.overview%></p>
-        <%# <p class="mt-1 text-gray-500">Rating: <%= @movie.vote_average&.round(1)%>
+        <div class="mt-2">
+          <% if current_user.watchlist.exists?(@movie.id) %>
+            <%= link_to 'Remove from watchlist', movie_remove_from_watchlist_path(@movie), data: { turbo_method: :post }, class: "text-white bg-red-700 rounded px-2 py-2" %>  
+          <% else %>
+            <%= link_to 'Add to watchlist', movie_add_to_watchlist_path(@movie), data: { turbo_method: :post }, class: "text-white bg-green-700 rounded px-2 py-2" %>
+          <% end %>
+        </div>
     </div>
 </div>
 
@@ -14,21 +19,17 @@
     <h2 class="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
 
     <!-- Add comment -->
-    <div class="mb-5">
-        <textarea class="w-full border rounded focus:outline-none focus:ring-2 p-3" rows="3" placeholder="Add a comment"></textarea>
-        <button class="mt-2 w-auto px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-500">
-            Submit
-        </button>
-    </div>
+    <turbo-frame id="new_comment">
+      <%= form_with model: [@movie, Comment.new], data: { turbo_frame: "new_comment" } do |form| %>
+        <div class="mb-5">
+          <%= form.text_area :body, class: "w-full border rounded focus:outline-none focus:ring-2 p-3", rows: "3" , placeholder: "Add a comment" %>
+          <%= form.submit "Submit", class: "mt-2 w-auto px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-500" %>
+        </div>
+      <% end %>
+    </turbo-frame>
     
     <!-- Display comments -->
     <div id="comments-list">
-      <div class="bg-white rounded-lg p-3 shadow mb-4 flex items-start">
-        <div class="text-sm">
-          <p class="font-bold mb-2">Username...</p>
-          <p class="text-gray-700">User comment...</p>
-          <p class="text-gray-600 text-xs mt-2">Comment date and time...</p>
-        </div>
-      </div>
+      <%= render partial: 'comments/comment', collection: @movie.comments, as: :comment %>
     </div>
 </div>
