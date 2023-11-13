@@ -3,6 +3,6 @@
     <p class="font-bold mb-2"><%= comment.user.email %></p>
     <p class="text-gray-700"><%= comment.body %></p>
     <p class="text-gray-600 text-xs mt-2"><%= comment.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
-    <%= link_to 'Delete', comment_path(comment), class: 'text-white bg-red-500 p-1 rounded', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } if comment.user == current_user %>
+    <%= link_to 'Delete', movie_comment_path(movie, comment), class: 'text-white bg-red-500 p-1 rounded', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } if comment.user == current_user %>
   </div>
 </div>

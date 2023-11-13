@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :movies do
-    resources :comments, shallow: true
+    resources :comments
     post 'add_to_watchlist'
-    post 'remove_from_watchlist'
+    delete 'remove_from_watchlist'
   end
 
   resources :watchlist, only: %i[index destroy]

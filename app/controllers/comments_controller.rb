@@ -2,7 +2,7 @@
 
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_movie, only: [:create]
+  before_action :set_movie, only: %i[create destroy]
   before_action :set_comment, only: [:destroy]
 
   def create
@@ -14,17 +14,19 @@ class CommentsController < ApplicationController
         format.html { redirect_to @movie }
       end
     else
-      render :new, status: :unprocessable_entity
+      head :no_content
     end
   end
 
   def destroy
-    return unless @comment.user == current_user
-
-    @comment.destroy
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @movie }
+    if @comment.user == current_user
+      @comment.destroy
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @movie }
+      end
+    else
+      head :forbidden
     end
   end
 

@@ -6,7 +6,7 @@
         <p class="text-gray-700 mt-2">Overview: <%= @movie.overview%></p>
         <div class="mt-2">
           <% if current_user.watchlist.exists?(@movie.id) %>
-            <%= link_to 'Remove from watchlist', movie_remove_from_watchlist_path(@movie), data: { turbo_method: :post }, class: "text-white bg-red-700 rounded px-2 py-2" %>  
+            <%= link_to 'Remove from watchlist', movie_remove_from_watchlist_path(@movie), data: { turbo_method: :delete }, class: "text-white bg-red-700 rounded px-2 py-2" %>  
           <% else %>
             <%= link_to 'Add to watchlist', movie_add_to_watchlist_path(@movie), data: { turbo_method: :post }, class: "text-white bg-green-700 rounded px-2 py-2" %>
           <% end %>
@@ -14,11 +14,9 @@
     </div>
 </div>
 
-<!-- Comment Section -->
 <div class="mt-10">
     <h2 class="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
 
-    <!-- Add comment -->
     <turbo-frame id="new_comment">
       <%= form_with model: [@movie, Comment.new], data: { turbo_frame: "new_comment" } do |form| %>
         <div class="mb-5">
@@ -28,8 +26,7 @@
       <% end %>
     </turbo-frame>
     
-    <!-- Display comments -->
     <div id="comments-list">
-      <%= render partial: 'comments/comment', collection: @movie.comments, as: :comment %>
+      <%= render partial: 'comments/comment', collection: @movie.comments, as: :comment, locals: { movie: @movie } %>
     </div>
 </div>
